@@ -112,48 +112,39 @@ export const LeadForm: React.FC<LeadFormProps> = ({
 
     setIsSubmitting(true);
 
-    try {
-      const endpoint = "https://api.web3forms.com/submit";
+   try {
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-  access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
-          
-          'Customer Name': formData.fullName.trim(),
-          'Mobile Number': formData.mobileNumber.trim(),
-          'Pincode': formData.pinCode.trim() || 'Bangalore (Not specified)',
-          'Brand': formData.selectedBrand,
-          'Service Type': formData.serviceType || 'RO Repair',
-          'Source Page': sourcePage,
-          'Submitted At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-          _subject: `New RO Lead: ${formData.fullName.trim()} - ${formData.selectedBrand} (${formData.mobileNumber.trim()})`,
-         
-        }),
-      });
+      "Customer Name": formData.fullName,
+      "Mobile Number": formData.mobileNumber,
+      "Pincode": formData.pinCode,
+      "Brand": formData.selectedBrand,
+      "Service Type": formData.serviceType,
+    }),
+  });
 
-      if (response.ok || response.status === 200) {
-        setIsSuccess(true);
-        setFormData({
-          fullName: '',
-          mobileNumber: '',
-          pinCode: '',
-          selectedBrand: preselectedBrand || 'Kent',
-          serviceType: SERVICE_OPTIONS[0],
-        });
-      } else {
-        setIsSuccess(true);
-      }
-    } catch (err) {
-      console.warn('FormSubmit AJAX fallback triggered:', err);
-      setIsSuccess(true);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const result = await response.json();
+  console.log("WEB3FORMS RESULT:", result);
+
+  if (result.success) {
+    setIsSuccess(true);
+  } else {
+    console.log(result);
+  }
+}
+catch (err) {
+  console.error(err);
+}
+finally {
+  setIsSubmitting(false);
+}
   };
 
   return (
