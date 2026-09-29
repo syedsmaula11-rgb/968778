@@ -48,6 +48,16 @@ export default function RootLayout({
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <Script id="ms-clarity" strategy="afterInteractive">
+{`
+(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];
+    y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "ypx8ht14zg");
+`}
+</Script>
       </head>
       <body className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
        <VisitorTracker />
