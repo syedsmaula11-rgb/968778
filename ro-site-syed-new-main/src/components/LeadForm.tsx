@@ -125,7 +125,6 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
   ...
 })
-        
           'Customer Name': formData.fullName.trim(),
           'Mobile Number': formData.mobileNumber.trim(),
           'Pincode': formData.pinCode.trim() || 'Bangalore (Not specified)',
