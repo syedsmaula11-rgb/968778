@@ -3,6 +3,7 @@ import Script from 'next/script';
 import './globals.css';
 import { CallWidgets } from '@/src/components/CallWidgets';
 import { BUSINESS_DETAILS } from '@/src/data/content';
+import VisitorTracker from '@/src/components/VisitorTracker';
 
 export const viewport: Viewport = {
   themeColor: '#0c54a0',
@@ -49,6 +50,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
       </head>
       <body className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
+       <VisitorTracker />
         <Script
           strategy="lazyOnload"
           src="https://www.googletagmanager.com/gtag/js?id=AW-18344051619"
