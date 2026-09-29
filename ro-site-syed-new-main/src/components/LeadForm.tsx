@@ -113,7 +113,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     setIsSubmitting(true);
 
     try {
-      const endpoint = `https://formsubmit.co/ajax/${BUSINESS_DETAILS.formSubmitEmail}`;
+      const endpoint = "https://api.web3forms.com/submit";
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -122,6 +122,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({
           Accept: 'application/json',
         },
         body: JSON.stringify({
+         access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
+        
           'Customer Name': formData.fullName.trim(),
           'Mobile Number': formData.mobileNumber.trim(),
           'Pincode': formData.pinCode.trim() || 'Bangalore (Not specified)',
@@ -130,8 +132,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({
           'Source Page': sourcePage,
           'Submitted At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
           _subject: `New RO Lead: ${formData.fullName.trim()} - ${formData.selectedBrand} (${formData.mobileNumber.trim()})`,
-          _template: 'table',
-          _captcha: 'false',
+         
         }),
       });
 
