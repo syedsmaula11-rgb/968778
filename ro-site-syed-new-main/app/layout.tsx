@@ -61,18 +61,19 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
        <VisitorTracker />
-        <Script
-          strategy="lazyOnload"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18344051619"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18344051619');
-          `}
-        </Script>
+       <Script
+  strategy="afterInteractive"
+  src="https://www.googletagmanager.com/gtag/js?id=G-RRXBDKS3Z8"
+/>
+
+<Script id="google-analytics" strategy="afterInteractive">
+{`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RRXBDKS3Z8');
+`}
+</Script>
         <main className="flex-1">{children}</main>
         <CallWidgets />
       </body>
