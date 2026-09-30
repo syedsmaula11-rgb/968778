@@ -136,11 +136,13 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   if (result.success) {
     setIsSuccess(true);
   } else {
-    console.log(result);
-  }
+  console.log(result);
+  setServerError(result.message || "Submission failed");
+}
 }
 catch (err) {
   console.error(err);
+  setServerError("Failed to submit form. Please try again.");
 }
 finally {
   setIsSubmitting(false);
