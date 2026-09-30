@@ -527,21 +527,24 @@ console.log("WEB3FORMS RESULT:", result);
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
     try {
-      
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          Email: newsletterEmail.trim(),
-          Brand: brand.name,
-          Subscription: 'Newsletter & Updates',
-          _subject: `New Newsletter Subscriber: ${newsletterEmail.trim()}`,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      });
+  const response = await fetch("https://api.web3forms.com/submit", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+ body: JSON.stringify({
+  access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
+
+  Email: newsletterEmail.trim(),
+  Brand: brand.name,
+  Subscription: "Newsletter & Updates",
+
+  _subject: `New Newsletter Subscriber: ${newsletterEmail.trim()}`,
+  _template: "table",
+  _captcha: false,
+}),
+}),
     } catch (err) {
       console.warn('Newsletter submission:', err);
     }
