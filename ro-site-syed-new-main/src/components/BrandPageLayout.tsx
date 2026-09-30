@@ -495,7 +495,7 @@ console.log("WEB3FORMS RESULT:", result);
         setFormSubmitted(true);
       }
     } catch (err) {
-      console.warn('FormSubmit lead sending note:', err);
+      console.warn('Web3Forms lead sending note:', err);
       setFormSubmitted(true);
     } finally {
       setIsSubmitting(false);
