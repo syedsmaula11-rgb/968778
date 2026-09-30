@@ -482,7 +482,12 @@ export function BrandPageLayout({ brand }: BrandPageLayoutProps) {
     "Pincode": pincode.trim(),
     "Service Type": serviceType,
     "Brand": brand.name,
-    "Page URL": window.location.href,
+   "Page URL": window.location.href,
+
+from_name: brand.name,
+subject: `${brand.name} - New Lead`,
+_template: "table",
+_captcha: false,
   }),
 });
 
