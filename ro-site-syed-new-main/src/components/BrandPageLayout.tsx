@@ -543,7 +543,7 @@ console.log("WEB3FORMS RESULT:", result);
   _subject: `New Newsletter Subscriber: ${newsletterEmail.trim()}`,
   _template: "table",
   _captcha: false,
-}),
+ }),
 }),
     } catch (err) {
       console.warn('Newsletter submission:', err);
