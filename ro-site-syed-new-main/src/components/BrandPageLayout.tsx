@@ -533,21 +533,20 @@ console.log("WEB3FORMS RESULT:", result);
     "Content-Type": "application/json",
     Accept: "application/json",
   },
- body: JSON.stringify({
-  access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
+  body: JSON.stringify({
+    access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
+    Email: newsletterEmail.trim(),
+    Brand: brand.name,
+    Subscription: "Newsletter & Updates",
+    _subject: `New Newsletter Subscriber: ${newsletterEmail.trim()}`,
+    _template: "table",
+    _captcha: false,
+  }),
+});
 
-  Email: newsletterEmail.trim(),
-  Brand: brand.name,
-  Subscription: "Newsletter & Updates",
-
-  _subject: `New Newsletter Subscriber: ${newsletterEmail.trim()}`,
-  _template: "table",
-  _captcha: false,
- }),
-}),
-    } catch (err) {
-      console.warn('Newsletter submission:', err);
-    }
+} catch (err) {
+  console.warn("Newsletter submission:", err);
+}
     setNewsletterSubmitted(true);
   };
 
