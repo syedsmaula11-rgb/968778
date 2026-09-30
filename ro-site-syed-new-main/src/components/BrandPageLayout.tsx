@@ -468,25 +468,26 @@ export function BrandPageLayout({ brand }: BrandPageLayoutProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/syedsmaula786@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          'Customer Name': fullName.trim(),
-          'Mobile Number': cleanPhone,
-          'Pincode': pincode.trim() || 'Bangalore (Not specified)',
-          'Service Type': serviceType,
-          'Brand': brand.name,
-          'Page URL': typeof window !== 'undefined' ? window.location.href : '',
-          'Submitted At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-          _subject: `New RO Lead: ${fullName.trim()} - ${brand.name} (${cleanPhone})`,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      });
+      const response = await fetch("https://api.web3forms.com/submit", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+  body: JSON.stringify({
+    access_key: "28914f0a-3328-4838-b316-26d59bef7dff",
+
+    "Customer Name": fullName.trim(),
+    "Mobile Number": cleanPhone,
+    "Pincode": pincode.trim(),
+    "Service Type": serviceType,
+    "Brand": brand.name,
+    "Page URL": window.location.href,
+  }),
+});
+
+const result = await response.json();
+console.log("WEB3FORMS RESULT:", result);
 
       if (response.ok || response.status === 200) {
         setFormSubmitted(true);
@@ -526,7 +527,7 @@ export function BrandPageLayout({ brand }: BrandPageLayoutProps) {
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
     try {
-      await fetch('https://formsubmit.co/ajax/syedsmaula786@gmail.com', {
+      
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
