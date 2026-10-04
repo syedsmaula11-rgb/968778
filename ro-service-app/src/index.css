@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #1e293b;
+  padding-bottom: 0; /* Extra space hatane ke liye 0 kar diya */
+  line-height: 1.6;
+}
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+@media (max-width: 768px) {
+  p {
+    text-align: left;
+  }
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.3;
+}

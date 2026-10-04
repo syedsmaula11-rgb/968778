@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://roservicecenteronline24x7.in/sitemap.xml
