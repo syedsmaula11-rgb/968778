@@ -1,0 +1,147 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { BRAND_PAGES_DATA } from '@/data/content';
+import { BLOG_POSTS, getBrandBlogImage } from '@/data/blogPosts';
+import { BookOpen, Calendar, Clock, ArrowRight, ArrowLeft } from 'lucide-react';
+
+export const prerender = false;
+
+const { brand: brandKey } = Astro.params;
+
+// Brand lookup
+function getBrand(key: string) {
+  if (!key) return undefined;
+  if (BRAND_PAGES_DATA[key]) return BRAND_PAGES_DATA[key];
+  if (BRAND_PAGES_DATA[`${key}-service`]) return BRAND_PAGES_DATA[`${key}-service`];
+  return Object.values(BRAND_PAGES_DATA).find(
+    (b) =>
+      b.id === key ||
+      b.id === key.replace(/-service$/, '') ||
+      b.slug === `/${key}` ||
+      b.slug === `/${key}-service` ||
+      b.name.toLowerCase() === key.toLowerCase()
+  );
+}
+
+const brand = getBrand(brandKey || '');
+
+if (!brand) {
+  return Astro.redirect('/404');
+}
+
+// Filter posts related to this brand
+const cleanSlug = brand.id.toLowerCase().replace(/-service$/, '');
+const brandPosts = BLOG_POSTS.filter((post) => {
+  const targetSlug = post.relatedBrandSlug?.toLowerCase().replace(/-service$/, '') || '';
+  const targetName = post.relatedBrandName?.toLowerCase() || '';
+  const nameClean = brand.name.toLowerCase();
+  return (
+    targetSlug === cleanSlug ||
+    targetName.includes(nameClean) ||
+    post.title.toLowerCase().includes(nameClean)
+  );
+});
+
+// Fallback: show all posts if brand has fewer than 3
+const displayPosts = brandPosts.length < 3
+  ? [...brandPosts, ...BLOG_POSTS.filter(p => !brandPosts.some(bp => bp.slug === p.slug))].slice(0, 6)
+  : brandPosts;
+
+const title = `${brand.name} RO Purifier Care & Maintenance Guides | Bangalore`;
+const description = `Expert ${brand.name} RO water purifier maintenance guides, troubleshooting tips, and filter replacement schedules for Bangalore households.`;
+const canonical = `https://www.roservicesupport.co.in/${brandKey}/blog`;
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <Header currentRoute={`/${brandKey}/blog`} client:only="react" />
+
+  <main class="min-h-screen bg-slate-50 py-12 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <a
+        href={brand.slug}
+        class="inline-flex items-center gap-1.5 text-xs font-bold text-sky-600 hover:text-sky-700 bg-white border border-slate-200 px-3.5 py-2 rounded-xl mb-6 shadow-2xs transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to {brand.name} Service
+      </a>
+
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <span
+          style={`color: ${brand.brandThemeColors?.primary || '#0066cc'}; background-color: ${brand.brandThemeColors?.primary || '#0066cc'}15;`}
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3"
+        >
+          <BookOpen className="w-3.5 h-3.5" />
+          {brand.name} Expert Knowledge Base
+        </span>
+        <h1 class="text-3xl sm:text-5xl font-black text-[#002b66] tracking-tight leading-tight">
+          {brand.name} RO Purifier Care & Maintenance Guides
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 mt-3 max-w-2xl mx-auto">
+          Actionable maintenance schedules, fault checklists, and filter replacement guides specifically tailored for {brand.name} purifiers in Bangalore.
+        </p>
+      </div>
+
+      <!-- Blog Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {displayPosts.map((post, idx) => {
+          const postImage = getBrandBlogImage(brandKey, post.slug || idx, post.image);
+          const postHref = `/${brandKey}/blog/${post.slug}`;
+
+          return (
+            <article class="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group hover:border-blue-300/80">
+              <a href={postHref} class="relative h-48 sm:h-52 w-full bg-slate-100 block overflow-hidden">
+                <img
+                  src={postImage}
+                  alt={post.title}
+                  loading="lazy"
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                />
+              </a>
+
+              <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center gap-3 text-xs text-slate-400 mb-2.5">
+                    <span class="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {post.publishedAt}
+                    </span>
+                    <span>•</span>
+                    <span class="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      {post.readingTime}
+                    </span>
+                  </div>
+
+                  <h2 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#0066cc] transition-colors leading-snug mb-2.5">
+                    <a href={postHref}>{post.title}</a>
+                  </h2>
+
+                  <p class="text-xs sm:text-[13px] text-slate-600 leading-relaxed line-clamp-3 mb-5">
+                    {post.description}
+                  </p>
+                </div>
+
+                <div class="pt-3.5 border-t border-slate-100">
+                  <a
+                    href={postHref}
+                    class="inline-flex items-center gap-1.5 text-xs font-bold text-[#0066cc] group-hover:text-[#0052a3] transition-colors"
+                  >
+                    <span>Read Guide</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+    </div>
+  </main>
+
+  <Footer currentRoute={`/${brandKey}/blog`} client:only="react" />
+</Layout>
